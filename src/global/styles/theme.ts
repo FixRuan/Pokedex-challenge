@@ -1,5 +1,9 @@
 export default {
     colors: {
+        white: '#FFFFFF',
+        black: '#17171B',
+        gray: '#747476',
+        shape: '#F2F2F2',
         type: {
             bug: '#8CB230',
             dark: '#58575F',
