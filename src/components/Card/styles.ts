@@ -1,10 +1,14 @@
+import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import styled from 'styled-components/native'
 
-export const Container = styled.View`
+interface CardProps {
+    primaryType?: string;
+}
+
+export const Container = styled.View<CardProps>`
    width: 100%;
    height: 115px;
-   background-color: ${({ theme }) => theme.colors.backgroundType.grass};
+   background-color: ${({ theme, primaryType }) => theme.colors.backgroundType[primaryType]};
    border-radius: 10px;
    flex-direction: row;
    justify-content: space-between;
@@ -28,7 +32,7 @@ export const Patern = styled.ImageBackground`
     height: 42px;
     position: absolute;
     top: 10px;
-    left: 110px;
+    left: 90px;
 `;
 
 export const Name = styled.Text`

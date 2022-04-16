@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
+import { handleIconType } from '../../utils/fiterIcon';
 
 import grass from '../../assets/all/types/grass.png';
 
@@ -17,11 +18,11 @@ export function TypeCard({ type }: TypeCardProps) {
     const theme = useTheme();
     const FormattedType = type[0].toUpperCase() + type.slice(1);
 
-    function handleTypeIcon() { }
+    const icon = handleIconType(type);
 
     return (
         <Container types={type}>
-            <TypeImage source={grass} />
+            <TypeImage source={icon} />
             <TypeName>{FormattedType}</TypeName>
         </Container>
     );

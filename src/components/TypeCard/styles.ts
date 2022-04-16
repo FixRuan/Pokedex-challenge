@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const Container = styled.View<Props>`
-   width: 61px;
+    min-width: 61px;
     height: 25px;
     background-color: ${({ theme, types }) => theme.colors.type[types]};
     border-radius: 3px;
@@ -14,6 +14,7 @@ export const Container = styled.View<Props>`
     align-items: center;
     justify-content: space-evenly;
     margin-right: 5px;
+    padding: 0 3px;
 `;
 
 export const TypeImage = styled.Image``;
@@ -22,4 +23,5 @@ export const TypeName = styled.Text`
     color: ${({ theme }) => theme.colors.white};
     font-size: ${RFValue(12)}px;
     font-family: ${({ theme }) => theme.fonts.medium};
+    margin-left: 2px;
 `;

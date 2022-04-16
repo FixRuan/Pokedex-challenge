@@ -2,7 +2,9 @@ import React from 'react';
 
 import pattern from '../../assets/all/Pattern.png';
 import PokeballShape from '../../assets/all/PokeballShape.png';
-import pokemon from '../../assets/all/01.png';
+import pokemonPng from '../../assets/all/01.png';
+
+import { TypeCard } from '../TypeCard';
 
 import {
     Container,
@@ -15,23 +17,33 @@ import {
     Shape,
     Pokemon,
 } from './styles';
-import { TypeCard } from '../TypeCard';
 
-export function Card() {
+interface CardProps {
+    pokemon: {
+        id: string;
+        name: string;
+        types: string[];
+        pokemonImage?: string;
+    }
+}
+
+export function Card({ pokemon }: CardProps) {
+
+    const primaryType = pokemon.types[0];
+
     return (
-        <Container>
+        <Container primaryType={primaryType}>
             <Section>
-                <Id>#001</Id>
+                <Id>{pokemon.id}</Id>
                 <Patern source={pattern} />
-                <Name>Bulbasaur</Name>
+                <Name>{pokemon.name}</Name>
                 <Types>
-                    <TypeCard type='grass' />
-                    <TypeCard type='poison' />
+                    {pokemon.types.map(type => <TypeCard key={type} type={type} />)}
                 </Types>
             </Section>
             <ImageWrapper>
                 <Shape source={PokeballShape} />
-                <Pokemon source={pokemon} />
+                <Pokemon source={pokemonPng} />
             </ImageWrapper>
         </Container>
     );

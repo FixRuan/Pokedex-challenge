@@ -22,6 +22,12 @@ export function Home() {
 
     const theme = useTheme();
 
+    const pokemon = {
+        id: '001',
+        name: 'Bulbasaur',
+        types: ['ground', 'bug'],
+    }
+
     return (
         <Container>
             <StatusBar barStyle='light-content' backgroundColor={theme.colors.white} />
@@ -48,7 +54,7 @@ export function Home() {
             </Header>
 
             <Content>
-                <Card />
+                <Card pokemon={pokemon} />
             </Content>
         </Container>
     );
