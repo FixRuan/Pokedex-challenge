@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
+import { ActivityIndicator, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 
 import Filter from '../../assets/all/filter.svg';
@@ -33,16 +33,12 @@ export function Home() {
     const theme = useTheme();
     const [pokemonData, setPokemonData] = useState<PokemonDataProps[]>([]);
     const [loadPokemons, setLoadPokemons] = useState(true);
-
-    const pokemon = {
-        id: '001',
-        name: 'Bulbasaur',
-        types: ['dark', 'bug'],
-    }
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (loadPokemons) {
             async function getPokemons() {
+                setLoading(true);
                 const response = await api.get('pokemon?limit=50&offset=0');
                 const pokemonArray = response.data.results;
 
@@ -64,6 +60,7 @@ export function Home() {
                     }
                     setPokemonData(pokemonData => [...pokemonData, formattedData]);
                 })
+                setLoading(false);
             }
             getPokemons();
         }
@@ -97,6 +94,8 @@ export function Home() {
             </Header>
 
             <Content showsVerticalScrollIndicator={false}>
+                {loading && <ActivityIndicator size='large' color={theme.colors.type.dark} />}
+
                 {pokemonData.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} />)}
             </Content>
         </Container>
