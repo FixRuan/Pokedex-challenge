@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -7,6 +7,8 @@ import Filter2 from '../../assets/all/filter2.svg';
 import Filter3 from '../../assets/all/filter3.svg';
 import { Card } from '../../components/Card';
 import { InputFilter } from '../../components/InputFilter';
+import { api } from '../../services/api';
+import { handlePokemonIndex } from '../../utils/pokemonIndex';
 
 import {
     Container,
@@ -18,15 +20,56 @@ import {
     Content,
 } from './styles';
 
+interface PokemonDataProps {
+    id: string;
+    name: string;
+    url: string;
+    types: string[];
+    pokemonImage?: string;
+}
+
 export function Home() {
 
     const theme = useTheme();
+    const [pokemonData, setPokemonData] = useState<PokemonDataProps[]>([]);
+    const [loadPokemons, setLoadPokemons] = useState(true);
 
     const pokemon = {
         id: '001',
         name: 'Bulbasaur',
-        types: ['ground', 'bug'],
+        types: ['dark', 'bug'],
     }
+
+    useEffect(() => {
+        if (loadPokemons) {
+            async function getPokemons() {
+                const response = await api.get('pokemon?limit=50&offset=0');
+                const pokemonArray = response.data.results;
+
+                pokemonArray.map(async pokemon => {
+                    const pokemonName = pokemon.name;
+                    const pokemonUrl = pokemon.url;
+                    const PokemonSpecs = await api.get(pokemonUrl);
+
+                    const pokemonTypes = PokemonSpecs.data.types.map(type => type.type.name);
+                    const pokemonIndex = handlePokemonIndex(PokemonSpecs.data.id);
+                    const image = PokemonSpecs.data.sprites.other['official-artwork'].front_default;
+
+                    const formattedData = {
+                        id: pokemonIndex,
+                        name: pokemonName,
+                        url: pokemonUrl,
+                        types: pokemonTypes,
+                        pokemonImage: image,
+                    }
+                    setPokemonData(pokemonData => [...pokemonData, formattedData]);
+                })
+            }
+            getPokemons();
+        }
+
+        setLoadPokemons(false);
+    }, [])
 
     return (
         <Container>
@@ -53,8 +96,8 @@ export function Home() {
                 <InputFilter />
             </Header>
 
-            <Content>
-                <Card pokemon={pokemon} />
+            <Content showsVerticalScrollIndicator={false}>
+                {pokemonData.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} />)}
             </Content>
         </Container>
     );

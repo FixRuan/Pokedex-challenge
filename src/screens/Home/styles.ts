@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
@@ -37,7 +37,7 @@ export const SubTitle = styled.Text`
    margin-bottom: 25px;
 `;
 
-export const Content = styled.View`
-   padding: 0px 30px;
+export const Content = styled(ScrollView)`
+   padding: 10px 30px;
    margin-top: 45px;
 `;

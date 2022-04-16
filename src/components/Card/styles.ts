@@ -12,6 +12,7 @@ export const Container = styled.View<CardProps>`
    border-radius: 10px;
    flex-direction: row;
    justify-content: space-between;
+   margin-bottom: 16px;
 `;
 
 export const Section = styled.View`

@@ -15,9 +15,7 @@ interface TypeCardProps {
 }
 
 export function TypeCard({ type }: TypeCardProps) {
-    const theme = useTheme();
     const FormattedType = type[0].toUpperCase() + type.slice(1);
-
     const icon = handleIconType(type);
 
     return (

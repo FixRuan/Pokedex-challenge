@@ -43,7 +43,7 @@ export function Card({ pokemon }: CardProps) {
             </Section>
             <ImageWrapper>
                 <Shape source={PokeballShape} />
-                <Pokemon source={pokemonPng} />
+                <Pokemon source={{ uri: pokemon.pokemonImage }} />
             </ImageWrapper>
         </Container>
     );
