@@ -1,10 +1,15 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
-export const Container = styled.View`
+interface Props {
+    type: string;
+}
+
+export const Container = styled.View<Props>`
    flex: 1;
-   background-color: ${({ theme }) => theme.colors.backgroundType.water};
+   background-color: ${({ theme, type }) => theme.colors.backgroundType[type]};
 `;
 
 export const Header = styled.View`
@@ -17,7 +22,6 @@ export const HeaderContent = styled.View`
     align-items: center;
     padding: 0px 24px;
     margin-top: 50px;
-    justify-content: space-between;
 `;
 
 export const BackIcon = styled(Feather)`
@@ -29,13 +33,14 @@ export const PokemonName = styled.Text`
     font-size: ${RFValue(24)}px;
     font-family: ${({ theme }) => theme.fonts.medium};
     color: ${({ theme }) => theme.colors.white};
-    margin-left: 80px;
+    margin-left: 70px;
 `;
 
 export const ShapeImage = styled.Image`
     width: 140px;
     height: 65px;
-    margin-left: 80px;
+    right: -40px;
+    position: absolute;
 `;
 
 export const NavBar = styled.View`
@@ -72,12 +77,13 @@ export const PokeballImage = styled.ImageBackground`
     left: -20px;
 `;
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.white};
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 0px 30px;
+    margin-top: -30px;
 `;
 
 export const Description = styled.Text`
@@ -122,4 +128,29 @@ export const WeaknessesWrapper = styled.View`
     flex-direction: row;
     align-items: center;
     margin-left: 20px;
+`;
+
+export const Gender = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+`;
+
+interface GenderProps {
+    gender: 'male' | 'female';
+}
+
+export const GenderIcon = styled(Ionicons) <GenderProps>`
+    font-size: 14px;
+    margin-right: 3px;
+    ${({ theme, gender }) => css`
+        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
+    `}
+`;
+
+export const Percentage = styled.Text<GenderProps>`
+    font-size: ${RFValue(14)}px;
+    ${({ theme, gender }) => css`
+        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
+    `}
 `;

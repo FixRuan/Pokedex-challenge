@@ -2,9 +2,9 @@ import React from 'react';
 
 import pattern from '../../assets/all/Pattern.png';
 import PokeballShape from '../../assets/all/PokeballShape.png';
-import pokemonPng from '../../assets/all/01.png';
 
 import { TypeCard } from '../TypeCard';
+import { TouchableOpacityProps } from 'react-native';
 
 import {
     Container,
@@ -18,7 +18,7 @@ import {
     Pokemon,
 } from './styles';
 
-interface CardProps {
+interface CardProps extends TouchableOpacityProps {
     pokemon: {
         id: string;
         name: string;
@@ -27,12 +27,12 @@ interface CardProps {
     }
 }
 
-export function Card({ pokemon }: CardProps) {
+export function Card({ pokemon, ...rest }: CardProps) {
 
     const primaryType = pokemon.types[0];
 
     return (
-        <Container primaryType={primaryType}>
+        <Container primaryType={primaryType} {...rest}>
             <Section>
                 <Id>{pokemon.id}</Id>
                 <Patern source={pattern} />

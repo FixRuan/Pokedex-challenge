@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { TouchableOpacity } from 'react-native';
 
 interface CardProps {
     primaryType?: string;
 }
 
-export const Container = styled.View<CardProps>`
+export const Container = styled(TouchableOpacity) <CardProps>`
    width: 100%;
    height: 115px;
    background-color: ${({ theme, primaryType }) => theme.colors.backgroundType[primaryType]};

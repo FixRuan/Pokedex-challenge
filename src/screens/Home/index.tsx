@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -20,7 +21,8 @@ import {
     Content,
 } from './styles';
 
-interface PokemonDataProps {
+export interface PokemonDataProps {
+    uuid: string;
     id: string;
     name: string;
     url: string;
@@ -31,9 +33,15 @@ interface PokemonDataProps {
 export function Home() {
 
     const theme = useTheme();
+    const navigation = useNavigation<any>();
+
     const [pokemonData, setPokemonData] = useState<PokemonDataProps[]>([]);
     const [loadPokemons, setLoadPokemons] = useState(true);
     const [loading, setLoading] = useState(false);
+
+    function handleOpenCard(pokemon: PokemonDataProps) {
+        navigation.navigate('Pokemon', { pokemon });
+    }
 
     useEffect(() => {
         if (loadPokemons) {
@@ -52,6 +60,7 @@ export function Home() {
                     const image = PokemonSpecs.data.sprites.other['official-artwork'].front_default;
 
                     const formattedData = {
+                        uuid: PokemonSpecs.data.id,
                         id: pokemonIndex,
                         name: pokemonName,
                         url: pokemonUrl,
@@ -96,7 +105,7 @@ export function Home() {
             <Content showsVerticalScrollIndicator={false}>
                 {loading && <ActivityIndicator size='large' color={theme.colors.type.dark} />}
 
-                {pokemonData.map(pokemon => <Card key={pokemon.id} pokemon={pokemon} />)}
+                {!loading && pokemonData.map(pokemon => <Card onPress={() => handleOpenCard(pokemon)} key={pokemon.id} pokemon={pokemon} />)}
             </Content>
         </Container>
     );

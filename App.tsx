@@ -5,8 +5,8 @@ import { useFonts } from 'expo-font';
 import { ThemeProvider } from 'styled-components/native';
 import theme from './src/global/styles/theme';
 
-import { Home } from './src/screens/Home';
-import { Pokemon } from './src/screens/Pokemon';
+import { NavigationContainer } from '@react-navigation/native';
+import { AppRoutes } from './src/routes/app.routes';
 
 
 let customFonts = {
@@ -24,7 +24,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Pokemon />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
