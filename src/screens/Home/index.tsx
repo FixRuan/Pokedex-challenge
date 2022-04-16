@@ -5,6 +5,7 @@ import { useTheme } from 'styled-components';
 import Filter from '../../assets/all/filter.svg';
 import Filter2 from '../../assets/all/filter2.svg';
 import Filter3 from '../../assets/all/filter3.svg';
+import { InputFilter } from '../../components/InputFilter';
 
 import {
     Container,
@@ -41,6 +42,7 @@ export function Home() {
                 <SubTitle>
                     Search for Pokémon by name or using the{'\n'}National Pokédex number.
                 </SubTitle>
+                <InputFilter />
             </Header>
         </Container>
     );

@@ -19,13 +19,14 @@ export const FilterWrapper = styled(TouchableOpacity)`
 `;
 
 export const Header = styled.View`
-   padding: 0px 24px;
+   padding: 0px 28px;
 `;
 
 export const Title = styled.Text`
    font-size: ${RFValue(32)}px;
    font-family: ${({ theme }) => theme.fonts.bold};
    color: ${({ theme }) => theme.colors.black};
+   margin-bottom: 10px;
 `;
 
 export const SubTitle = styled.Text`
@@ -33,4 +34,5 @@ export const SubTitle = styled.Text`
    font-family: ${({ theme }) => theme.fonts.regular};
    color: ${({ theme }) => theme.colors.gray};
    line-height: ${RFValue(19.10)}px;
+   margin-bottom: 25px;
 `;
