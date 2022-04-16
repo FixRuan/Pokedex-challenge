@@ -84,6 +84,7 @@ export const Content = styled.ScrollView`
     border-top-right-radius: 30px;
     padding: 0px 30px;
     margin-top: -30px;
+    padding-top: 25px;
 `;
 
 export const Description = styled.Text`
@@ -95,9 +96,9 @@ export const Description = styled.Text`
 
 export const PokedexData = styled.View``;
 
-export const PokedexTitle = styled.Text`
+export const PokedexTitle = styled.Text<Props>`
     font-size: ${RFValue(16)}px;
-    color: ${({ theme }) => theme.colors.type.water};
+    color: ${({ theme, type }) => theme.colors.backgroundType[type]};
     font-family: ${({ theme }) => theme.fonts.bold};
     margin-top: 10px;
     margin-bottom: 15px;

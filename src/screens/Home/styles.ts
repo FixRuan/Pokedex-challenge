@@ -27,6 +27,7 @@ export const Title = styled.Text`
    font-family: ${({ theme }) => theme.fonts.bold};
    color: ${({ theme }) => theme.colors.black};
    margin-bottom: 10px;
+   margin-top: 10px;
 `;
 
 export const SubTitle = styled.Text`

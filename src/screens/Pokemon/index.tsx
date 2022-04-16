@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StatusBar, TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import shape from '../../assets/all/shape.png';
@@ -43,6 +43,10 @@ interface PokemonSpecs extends PokemonDataProps {
     weight: string;
     abilities?: string[];
     weaknesses?: string[];
+    baseExp: string;
+    catchRate: string;
+    friendShipRate: string;
+    growthRate: string;
 }
 
 export function Pokemon() {
@@ -51,7 +55,7 @@ export function Pokemon() {
 
     const [pokemonStats, setPokemonStats] = useState<PokemonSpecs>();
     const [pokemonWeaknesses, setPokemonWeaknesses] = useState<string[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const route: any = useRoute();
     const pokemon = route.params.pokemon;
@@ -64,37 +68,45 @@ export function Pokemon() {
     useEffect(() => {
         async function loadPokemonData() {
             try {
-                setIsLoading(true);
                 const id = FilterApiIdByType(pokemon.types[0]);
+
+                const statsResponse = await api.get(pokemon.url);
                 const waknessesResponse = await api.get(`https://pokeapi.co/api/v2/type/${id}`);
+                const specRates = await api.get(`https://pokeapi.co/api/v2/pokemon-species/${pokemon.uuid}/`);
+
+
+
                 const halfDamages = waknessesResponse.data.damage_relations.half_damage_to;
                 const weaknesses = halfDamages.map(type => type.name);
                 setPokemonWeaknesses(weaknesses);
 
-                const statsResponse = await api.get(pokemon.url);
+                const catchRate = specRates.data.capture_rate;
+                const friendShipRate = specRates.data.base_happiness;
+                const growthRate = specRates.data.growth_rate.name;
+
+
                 const data = {
                     species: statsResponse.data.species.name,
                     height: statsResponse.data.height,
                     weight: statsResponse.data.weight,
                     abilities: statsResponse.data.abilities.map(ability => ability.ability.name),
                     weaknesses: pokemonWeaknesses,
+                    baseExp: statsResponse.data.base_experience,
+                    catchRate,
+                    friendShipRate,
+                    growthRate,
                     ...pokemon,
                 }
+
                 setPokemonStats(data);
                 setIsLoading(false);
             } catch (error) {
                 console.log(error);
-            } finally {
-                setIsLoading(false);
             }
         }
 
         loadPokemonData();
-    }, []);
-
-    if (!isLoading) {
-        console.log(pokemonStats);
-    }
+    }, [isLoading]);
 
     return (
         <Container type={primaryType}>
@@ -125,98 +137,68 @@ export function Pokemon() {
                 </NavBar>
             </Header>
             <Content showsVerticalScrollIndicator={false}>
-                <Description>
-                    Squirtle's shell is not merely used for protection.
-                    The shell's rounded shape and the grooves on its surface help
-                    minimize resistance in water, enabling this Pokémon to
-                    swim at high speeds.
-                </Description>
+                {isLoading ? <ActivityIndicator size={'large'} color={theme.colors.type[primaryType]} />
+                    :
+                    <>
+                        <PokedexData>
+                            <PokedexTitle type={primaryType}>Pokedex Data</PokedexTitle>
+                            <Specs>
+                                <SpecTitle>Species</SpecTitle>
+                                <SpecValue>{pokemonStats.species}</SpecValue>
+                            </Specs>
 
-                <PokedexData>
-                    <PokedexTitle>Pokedex Data</PokedexTitle>
-                    <Specs>
-                        <SpecTitle>Species</SpecTitle>
-                        <SpecValue>Tiny Turtle Pokémon</SpecValue>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Height</SpecTitle>
+                                <SpecValue>{pokemonStats.height}m</SpecValue>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Height</SpecTitle>
-                        <SpecValue>{'0.5m (1"08″)'}</SpecValue>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Weight</SpecTitle>
+                                <SpecValue>{pokemonStats.weight}</SpecValue>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Weight</SpecTitle>
-                        <SpecValue>9.0kg (19.8 lbs)</SpecValue>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Abilities</SpecTitle>
+                                <SpecSkills>
+                                    {pokemonStats.abilities.map(ability =>
+                                        <SpecValue key={ability}>{ability}</SpecValue>
+                                    )}
+                                </SpecSkills>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Abilities</SpecTitle>
-                        <SpecSkills>
-                            <SpecValue>1. Torrent</SpecValue>
-                            <SpecValue>Rain Dish (hidden ability)</SpecValue>
-                        </SpecSkills>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Weaknesses</SpecTitle>
+                                <WeaknessesWrapper>
+                                    {pokemonStats?.weaknesses?.map(item => (
+                                        <Type key={item} type={item} />
+                                    ))}
+                                </WeaknessesWrapper>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Weaknesses</SpecTitle>
-                        <WeaknessesWrapper>
-                            <Type type='steel' />
-                            <Type type='grass' />
-                        </WeaknessesWrapper>
-                    </Specs>
+                            <PokedexTitle type={primaryType}>Training</PokedexTitle>
+                            <Specs>
+                                <SpecTitle>Catch Rate</SpecTitle>
+                                <SpecValue>{pokemonStats.catchRate}</SpecValue>
+                            </Specs>
 
-                    {/* <PokedexTitle>Breeding</PokedexTitle>
-                    <Specs>
-                        <SpecTitle>Gender</SpecTitle>
-                        <Gender>
-                            <GenderIcon name="male" gender="male" />
-                            <Percentage gender='male'>87.5%,</Percentage>
-                            <GenderIcon name="female" gender="female" />
-                            <Percentage gender='female'>12.5%,</Percentage>
-                        </Gender>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Base Friendship</SpecTitle>
+                                <SpecValue>{pokemonStats.friendShipRate}</SpecValue>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Egg Groups</SpecTitle>
-                        <SpecValue>Monster, Water 1</SpecValue>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Base Exp</SpecTitle>
+                                <SpecValue>{pokemonStats.baseExp}</SpecValue>
+                            </Specs>
 
-                    <Specs>
-                        <SpecTitle>Egg Cycles</SpecTitle>
-                        <SpecValue>20 (4,884 - 5,140 steps)</SpecValue>
-                    </Specs>
+                            <Specs>
+                                <SpecTitle>Growth Rate</SpecTitle>
+                                <SpecValue>{pokemonStats.growthRate}</SpecValue>
+                            </Specs>
+                        </PokedexData>
+                    </>
+                }
 
-                    <PokedexTitle>Location</PokedexTitle>
-                    <Specs>
-                        <SpecTitle>007</SpecTitle>
-                        <SpecValue>(Red/Blue/Yellow)</SpecValue>
-                    </Specs>
-
-                    <Specs>
-                        <SpecTitle>232</SpecTitle>
-                        <SpecValue>(Gold/Silver/Crystal)</SpecValue>
-                    </Specs>
-
-                    <Specs>
-                        <SpecTitle>007</SpecTitle>
-                        <SpecValue>(FireRed/LeafGreen)</SpecValue>
-                    </Specs>
-
-                    <Specs>
-                        <SpecTitle>237</SpecTitle>
-                        <SpecValue>(HeartGold/SoulSilver)</SpecValue>
-                    </Specs>
-
-                    <Specs>
-                        <SpecTitle>086</SpecTitle>
-                        <SpecValue>(X/Y - Central Kalos)</SpecValue>
-                    </Specs>
-
-                    <Specs>
-                        <SpecTitle>007</SpecTitle>
-                        <SpecValue>(Let's Go Pikachu/Let's Go Eevee)</SpecValue>
-                    </Specs> */}
-                </PokedexData>
             </Content>
         </Container>
     );
