@@ -5,6 +5,7 @@ import { useTheme } from 'styled-components';
 import Filter from '../../assets/all/filter.svg';
 import Filter2 from '../../assets/all/filter2.svg';
 import Filter3 from '../../assets/all/filter3.svg';
+import { Card } from '../../components/Card';
 import { InputFilter } from '../../components/InputFilter';
 
 import {
@@ -14,6 +15,7 @@ import {
     Header,
     SubTitle,
     Title,
+    Content,
 } from './styles';
 
 export function Home() {
@@ -44,6 +46,10 @@ export function Home() {
                 </SubTitle>
                 <InputFilter />
             </Header>
+
+            <Content>
+                <Card />
+            </Content>
         </Container>
     );
 }

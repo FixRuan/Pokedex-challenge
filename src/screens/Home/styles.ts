@@ -36,3 +36,8 @@ export const SubTitle = styled.Text`
    line-height: ${RFValue(19.10)}px;
    margin-bottom: 25px;
 `;
+
+export const Content = styled.View`
+   padding: 0px 30px;
+   margin-top: 45px;
+`;

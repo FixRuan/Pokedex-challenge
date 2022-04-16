@@ -4,6 +4,7 @@ export default {
         black: '#17171B',
         gray: '#747476',
         shape: '#F2F2F2',
+        IdColor: '#17171B',
         type: {
             bug: '#8CB230',
             dark: '#58575F',
