@@ -4,7 +4,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
    flex: 1;
-   background-color: ${({ theme }) => theme.colors.backgroundType.fairy};
+   background-color: ${({ theme }) => theme.colors.backgroundType.water};
 `;
 
 export const Header = styled.View`
@@ -46,7 +46,10 @@ export const NavBar = styled.View`
     justify-content: space-between;
 `;
 
-export const Item = styled.View``;
+export const Item = styled.View`
+    align-items: center;
+    justify-content: center;
+`;
 
 export const ActiveItemText = styled.Text`
     font-size: ${RFValue(16)}px;
@@ -74,4 +77,49 @@ export const Content = styled.View`
     background-color: ${({ theme }) => theme.colors.white};
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
+    padding: 0px 30px;
+`;
+
+export const Description = styled.Text`
+    color: ${({ theme }) => theme.colors.gray};
+    font-size: ${RFValue(15)}px;
+    margin-top: 20px;
+    text-align: justify;
+`;
+
+export const PokedexData = styled.View``;
+
+export const PokedexTitle = styled.Text`
+    font-size: ${RFValue(16)}px;
+    color: ${({ theme }) => theme.colors.type.water};
+    font-family: ${({ theme }) => theme.fonts.bold};
+    margin-top: 10px;
+    margin-bottom: 15px;
+`;
+
+export const Specs = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 16px;
+`;
+
+export const SpecTitle = styled.Text`
+    font-size: ${RFValue(12)}px;
+    color: ${({ theme }) => theme.colors.black};
+    font-family: ${({ theme }) => theme.fonts.medium};
+`
+
+export const SpecValue = styled.Text`
+    font-size: ${RFValue(15)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
+    margin-left: 20px;
+`;
+
+export const SpecSkills = styled.View``
+
+export const WeaknessesWrapper = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-left: 20px;
 `;
