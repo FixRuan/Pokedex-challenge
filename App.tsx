@@ -3,9 +3,10 @@ import AppLoading from "expo-app-loading";
 import { useFonts } from 'expo-font';
 
 import { ThemeProvider } from 'styled-components/native';
+import theme from './src/global/styles/theme';
 
 import { Home } from './src/screens/Home';
-import theme from './src/global/styles/theme';
+import { Pokemon } from './src/screens/Pokemon';
 
 
 let customFonts = {
@@ -23,7 +24,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      <Pokemon />
     </ThemeProvider>
   );
 }
