@@ -51,7 +51,7 @@ interface PokemonSpecs extends PokemonDataProps {
 
 export function Pokemon() {
     const theme = useTheme();
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
 
     const [pokemonStats, setPokemonStats] = useState<PokemonSpecs>();
     const [pokemonWeaknesses, setPokemonWeaknesses] = useState<string[]>([]);
@@ -65,6 +65,10 @@ export function Pokemon() {
         navigation.goBack();
     }
 
+    function handleStats() {
+        navigation.navigate('Stats', { pokemon });
+    }
+
     useEffect(() => {
         async function loadPokemonData() {
             try {
@@ -76,7 +80,7 @@ export function Pokemon() {
 
 
 
-                const halfDamages = waknessesResponse.data.damage_relations.half_damage_to;
+                const halfDamages = waknessesResponse.data.damage_relations.double_damage_from;
                 const weaknesses = halfDamages.map(type => type.name);
                 setPokemonWeaknesses(weaknesses);
 
@@ -124,15 +128,21 @@ export function Pokemon() {
                 <NavBar>
                     <Item>
                         <PokeballImage source={pokeball} />
-                        <ActiveItemText>About</ActiveItemText>
+                        <TouchableOpacity disabled={true}>
+                            <ActiveItemText>About</ActiveItemText>
+                        </TouchableOpacity>
                     </Item>
 
                     <Item>
-                        <ItemText>Stats</ItemText>
+                        <TouchableOpacity onPress={handleStats}>
+                            <ItemText>Stats</ItemText>
+                        </TouchableOpacity>
                     </Item>
 
                     <Item>
-                        <ItemText>Evolution</ItemText>
+                        <TouchableOpacity>
+                            <ItemText>Evolution</ItemText>
+                        </TouchableOpacity>
                     </Item>
                 </NavBar>
             </Header>

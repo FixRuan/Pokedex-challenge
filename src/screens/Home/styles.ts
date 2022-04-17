@@ -38,7 +38,13 @@ export const SubTitle = styled.Text`
    margin-bottom: 25px;
 `;
 
-export const Content = styled(ScrollView)`
-   padding: 10px 30px;
+export const ContentLoad = styled.View`
+   width: 100%;
+   padding: 10px 0px;
+`
+
+export const ContentScroll = styled(ScrollView)`
+   padding-top: 10px;
    margin-top: 45px;
+   padding: 0px 30px;
 `;

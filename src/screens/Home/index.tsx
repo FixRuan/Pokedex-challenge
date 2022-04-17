@@ -18,7 +18,8 @@ import {
     Header,
     SubTitle,
     Title,
-    Content,
+    ContentScroll,
+    ContentLoad,
 } from './styles';
 
 export interface PokemonDataProps {
@@ -43,43 +44,45 @@ export function Home() {
         navigation.navigate('Pokemon', { pokemon });
     }
 
+    async function getPokemons() {
+        setLoading(true);
+        const response = await api.get(`pokemon?limit=50&offset=${0}`);
+        const pokemonArray = response.data.results;
+
+        pokemonArray.map(async pokemon => {
+            const pokemonName = pokemon.name;
+            const pokemonUrl = pokemon.url;
+            const PokemonSpecs = await api.get(pokemonUrl);
+
+            const pokemonTypes = PokemonSpecs.data.types.map(type => type.type.name);
+            const pokemonIndex = handlePokemonIndex(PokemonSpecs.data.id);
+            const image = PokemonSpecs.data.sprites.other['official-artwork'].front_default;
+
+            const formattedData = {
+                uuid: PokemonSpecs.data.id,
+                id: pokemonIndex,
+                name: pokemonName,
+                url: pokemonUrl,
+                types: pokemonTypes,
+                pokemonImage: image,
+            }
+            setPokemonData(pokemonData => [...pokemonData, formattedData]);
+        })
+        setLoading(false);
+    }
+
     useEffect(() => {
         if (loadPokemons) {
-            async function getPokemons() {
-                setLoading(true);
-                const response = await api.get('pokemon?limit=50&offset=0');
-                const pokemonArray = response.data.results;
-
-                pokemonArray.map(async pokemon => {
-                    const pokemonName = pokemon.name;
-                    const pokemonUrl = pokemon.url;
-                    const PokemonSpecs = await api.get(pokemonUrl);
-
-                    const pokemonTypes = PokemonSpecs.data.types.map(type => type.type.name);
-                    const pokemonIndex = handlePokemonIndex(PokemonSpecs.data.id);
-                    const image = PokemonSpecs.data.sprites.other['official-artwork'].front_default;
-
-                    const formattedData = {
-                        uuid: PokemonSpecs.data.id,
-                        id: pokemonIndex,
-                        name: pokemonName,
-                        url: pokemonUrl,
-                        types: pokemonTypes,
-                        pokemonImage: image,
-                    }
-                    setPokemonData(pokemonData => [...pokemonData, formattedData]);
-                })
-                setLoading(false);
-            }
             getPokemons();
         }
 
         setLoadPokemons(false);
     }, [])
 
+
     return (
         <Container>
-            <StatusBar barStyle='light-content' backgroundColor={theme.colors.white} />
+            <StatusBar barStyle='dark-content' backgroundColor={theme.colors.white} />
             <Filters>
                 <FilterWrapper>
                     <Filter height={30} />
@@ -102,11 +105,18 @@ export function Home() {
                 <InputFilter />
             </Header>
 
-            <Content showsVerticalScrollIndicator={false}>
+
+            <ContentScroll showsVerticalScrollIndicator={false}>
                 {loading && <ActivityIndicator size='large' color={theme.colors.type.dark} />}
 
                 {!loading && pokemonData.map(pokemon => <Card onPress={() => handleOpenCard(pokemon)} key={pokemon.id} pokemon={pokemon} />)}
-            </Content>
+
+            </ContentScroll>
+
+
+
+
+
         </Container>
     );
 }
