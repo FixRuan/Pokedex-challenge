@@ -18,11 +18,23 @@ export const Header = styled.View`
 `;
 
 export const HeaderContent = styled.View`
-    flex-direction: row;
-    align-items: center;
     padding: 0px 24px;
-    margin-top: 50px;
+    margin-top: 20px;
 `;
+
+export const PokeInfo = styled.View`
+    flex-direction: row;
+    align-self: center;
+    align-items: center;
+`;
+
+export const PokeInfoImage = styled.Image`
+    width: 110px;
+    height: 110px;
+    margin-right: 10px;
+`;
+
+export const PokeInfoWrapper = styled.View``;
 
 export const BackIcon = styled(Feather)`
     font-size: 35px;
@@ -33,13 +45,25 @@ export const PokemonName = styled.Text`
     font-size: ${RFValue(24)}px;
     font-family: ${({ theme }) => theme.fonts.medium};
     color: ${({ theme }) => theme.colors.white};
-    margin-left: 70px;
+`;
+
+export const Id = styled.Text`
+    color: ${({ theme }) => theme.colors.IdColor};
+    font-size: ${RFValue(16)}px;
+    font-family: ${({ theme }) => theme.fonts.bold};
+    opacity: 0.5;
+`;
+
+export const Types = styled.View`
+    flex-direction: row;
+    align-items: center;
 `;
 
 export const ShapeImage = styled.Image`
     width: 140px;
     height: 65px;
-    right: -40px;
+    right: -140px;
+    top: 50px;
     position: absolute;
 `;
 
@@ -83,7 +107,7 @@ export const Content = styled.ScrollView`
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 0px 30px;
-    margin-top: -30px;
+    margin-top: -10px;
     padding-top: 25px;
 `;
 

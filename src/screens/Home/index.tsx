@@ -46,7 +46,7 @@ export function Home() {
 
     async function getPokemons() {
         setLoading(true);
-        const response = await api.get(`pokemon?limit=50&offset=${0}`);
+        const response = await api.get(`pokemon?limit=20&offset=${0}`);
         const pokemonArray = response.data.results;
 
         pokemonArray.map(async pokemon => {
@@ -99,9 +99,7 @@ export function Home() {
 
             <Header>
                 <Title>Pokédex</Title>
-                <SubTitle>
-                    Search for Pokémon by name or using the{'\n'}National Pokédex number.
-                </SubTitle>
+                <SubTitle>Explore the world of Pokemon</SubTitle>
                 <InputFilter />
             </Header>
 

@@ -29,6 +29,11 @@ import {
     Gender,
     GenderIcon,
     Percentage,
+    PokeInfo,
+    PokeInfoImage,
+    PokeInfoWrapper,
+    Id,
+    Types,
 } from './styles';
 import { Type } from '../../components/Type';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -36,6 +41,7 @@ import { api } from '../../services/api';
 import { FilterApiIdByType } from '../../utils/filterTypeStats';
 
 import { PokemonDataProps } from '../Home';
+import { TypeCard } from '../../components/TypeCard';
 
 interface PokemonSpecs extends PokemonDataProps {
     species: string;
@@ -121,8 +127,18 @@ export function Pokemon() {
                         <BackIcon name="arrow-left" />
                     </TouchableOpacity>
 
-                    <PokemonName>{pokemon.name}</PokemonName>
-                    <ShapeImage source={shape} />
+                    <PokeInfo>
+                        <PokeInfoImage source={{ uri: pokemon.pokemonImage }} />
+                        <PokeInfoWrapper>
+                            <Id>{pokemon.id}</Id>
+                            <PokemonName>{pokemon.name}</PokemonName>
+                            <Types>
+                                {pokemon.types.map(type => <TypeCard key={type} type={type} />)}
+                            </Types>
+                        </PokeInfoWrapper>
+                        <ShapeImage source={shape} />
+                    </PokeInfo>
+
                 </HeaderContent>
 
                 <NavBar>
