@@ -105,16 +105,19 @@ export function Home() {
 
 
             <ContentScroll showsVerticalScrollIndicator={false}>
-                {loading && <ActivityIndicator size='large' color={theme.colors.type.dark} />}
-
-                {!loading && pokemonData.map(pokemon => <Card onPress={() => handleOpenCard(pokemon)} key={pokemon.id} pokemon={pokemon} />)}
-
+                {
+                    !loading ? pokemonData.map(pokemon =>
+                        <Card
+                            key={pokemon.id}
+                            onPress={() => handleOpenCard(pokemon)}
+                            pokemon={pokemon}
+                        />)
+                        : <ActivityIndicator
+                            size='large'
+                            color={theme.colors.type.dark}
+                        />
+                }
             </ContentScroll>
-
-
-
-
-
         </Container>
     );
 }

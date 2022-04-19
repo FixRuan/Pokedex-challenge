@@ -123,64 +123,13 @@ export const SpecTitle = styled.Text`
     font-family: ${({ theme }) => theme.fonts.medium};
 `
 
-export const SpecValue = styled.Text`
-    font-size: ${RFValue(15)}px;
-    color: ${({ theme }) => theme.colors.gray};
-    font-family: ${({ theme }) => theme.fonts.regular};
-    margin-left: 20px;
-`;
-
 export const StatsNumber = styled.Text`
     font-size: ${RFValue(15)}px;
     color: ${({ theme }) => theme.colors.gray};
     font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-export const StatsMin = styled.Text`
-    font-size: ${RFValue(15)}px;
-    color: ${({ theme }) => theme.colors.gray};
-    font-family: ${({ theme }) => theme.fonts.regular};
-`;
-
-export const StatsMax = styled.Text`
-    font-size: ${RFValue(15)}px;
-    color: ${({ theme }) => theme.colors.gray};
-    font-family: ${({ theme }) => theme.fonts.regular};
-    margin-left: 10px;
-`;
-
 export const SpecSkills = styled.View``
-
-export const WeaknessesWrapper = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-left: 20px;
-`;
-
-export const Gender = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-left: 30px;
-`;
-
-interface GenderProps {
-    gender: 'male' | 'female';
-}
-
-export const GenderIcon = styled(Ionicons) <GenderProps>`
-    font-size: 14px;
-    margin-right: 3px;
-    ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy};
-    `};
-`;
-
-export const Percentage = styled.Text<GenderProps>`
-    font-size: ${RFValue(14)}px;
-    ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy};
-    `};
-`;
 
 export const Effectiveness = styled.View`
     margin-top: 10px;

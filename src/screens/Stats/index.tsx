@@ -10,10 +10,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { api } from '../../services/api';
 import { FilterApiIdByType } from '../../utils/filterTypeStats';
 
-import { PokemonDataProps } from '../Home';
-import { StatsBar } from '../../components/StatsBar';
-
 import { TypesArray } from '../../utils/fiterIcon';
+import { setDamages } from '../../utils/damages';
 
 import {
     Container,
@@ -33,21 +31,12 @@ import {
     PokedexTitle,
     Specs,
     SpecTitle,
-    SpecValue,
-    SpecSkills,
-    WeaknessesWrapper,
-    Gender,
-    GenderIcon,
-    Percentage,
     StatsNumber,
     SpecType,
-    StatsMin,
-    StatsMax,
     Effectiveness,
     Effective,
     EffectiveNumber,
 } from './styles';
-import { setDamages } from '../../utils/damages';
 
 
 interface StatsProps {
@@ -90,6 +79,7 @@ export function Stats() {
 
                 const DamagesResponse = await api.get(`type/${id}`);
                 const half = DamagesResponse.data.damage_relations.half_damage_to;
+
                 half.map(item => {
                     setHalfDamage(halfDamage => [...halfDamage, item.name]);
                 })
