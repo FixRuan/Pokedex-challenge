@@ -72,7 +72,7 @@ export function Pokemon() {
     }
 
     function handleStats() {
-        navigation.navigate('Stats', { pokemon });
+        navigation.navigate('Stats', { pokemonStats });
     }
 
     useEffect(() => {

@@ -15,6 +15,25 @@ import psychicPng from '../assets/all/types/psychic.png';
 import rockPng from '../assets/all/types/rock.png';
 import steelPng from '../assets/all/types/steel.png';
 
+export const TypesArray = [
+    { name: 'grass', id: 0 },
+    { name: 'bug', id: 1 },
+    { name: 'dark', id: 2 },
+    { name: 'dragon', id: 3 },
+    { name: 'electric', id: 4 },
+    { name: 'fairy', id: 5 },
+    { name: 'fighting', id: 6 },
+    { name: 'fire', id: 7 },
+    { name: 'flying', id: 8 },
+    { name: 'ghost', id: 9 },
+    { name: 'water', id: 10 },
+    { name: 'normal', id: 11 },
+    { name: 'poison', id: 12 },
+    { name: 'psychic', id: 13 },
+    { name: 'rock', id: 14 },
+    { name: 'steel', id: 15 },
+];
+
 
 export function handleIconType(type: string) {
     switch (type) {

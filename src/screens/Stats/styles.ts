@@ -90,7 +90,7 @@ export const Content = styled.ScrollView`
 export const Description = styled.Text`
     color: ${({ theme }) => theme.colors.gray};
     font-size: ${RFValue(15)}px;
-    margin-top: 20px;
+    font-family: ${({ theme }) => theme.fonts.regular};
     text-align: justify;
 `;
 
@@ -171,13 +171,31 @@ export const GenderIcon = styled(Ionicons) <GenderProps>`
     font-size: 14px;
     margin-right: 3px;
     ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
-    `}
+        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy};
+    `};
 `;
 
 export const Percentage = styled.Text<GenderProps>`
     font-size: ${RFValue(14)}px;
     ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
-    `}
+        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy};
+    `};
+`;
+
+export const Effectiveness = styled.View`
+    margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+`;
+
+export const Effective = styled.View`
+    margin-right: 5px;
+    align-items: center;
+    margin-bottom: 10px;
+`;
+
+export const EffectiveNumber = styled.Text`
+    font-size: ${RFValue(15)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
 `;

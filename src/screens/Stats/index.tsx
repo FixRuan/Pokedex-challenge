@@ -5,6 +5,16 @@ import { useTheme } from 'styled-components/native';
 import shape from '../../assets/all/shape.png';
 import pokeball from '../../assets/all/Pokeball.png';
 
+import { Type } from '../../components/Type';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { api } from '../../services/api';
+import { FilterApiIdByType } from '../../utils/filterTypeStats';
+
+import { PokemonDataProps } from '../Home';
+import { StatsBar } from '../../components/StatsBar';
+
+import { TypesArray } from '../../utils/fiterIcon';
+
 import {
     Container,
     Header,
@@ -33,14 +43,12 @@ import {
     SpecType,
     StatsMin,
     StatsMax,
+    Effectiveness,
+    Effective,
+    EffectiveNumber,
 } from './styles';
-import { Type } from '../../components/Type';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { api } from '../../services/api';
-import { FilterApiIdByType } from '../../utils/filterTypeStats';
+import { setDamages } from '../../utils/damages';
 
-import { PokemonDataProps } from '../Home';
-import { StatsBar } from '../../components/StatsBar';
 
 interface StatsProps {
     base_stat: number;
@@ -55,13 +63,13 @@ export function Stats() {
     const theme = useTheme();
     const navigation = useNavigation<any>();
 
-    const [pokemonStats, setPokemonStats] = useState<any>();
     const [isLoading, setIsLoading] = useState(true);
     const [stat, setStat] = useState<StatsProps[]>([]);
+    const [halfDamage, setHalfDamage] = useState<string[]>([]);
     const [statLoading, setStatLoading] = useState(true);
 
     const route: any = useRoute();
-    const pokemon = route.params.pokemon;
+    const pokemon = route.params.pokemonStats;
 
     const primaryType = pokemon.types[0];
 
@@ -80,6 +88,13 @@ export function Stats() {
                 const PokemonBaseStats = await api.get(`pokemon/${pokemon.uuid}`);
                 const Stats = PokemonBaseStats.data.stats;
 
+                const DamagesResponse = await api.get(`type/${id}`);
+                const half = DamagesResponse.data.damage_relations.half_damage_to;
+                half.map(item => {
+                    setHalfDamage(halfDamage => [...halfDamage, item.name]);
+                })
+
+
                 if (statLoading) {
                     Stats.map(item => {
                         const FormattedStat = {
@@ -96,6 +111,7 @@ export function Stats() {
 
 
 
+
                 setStatLoading(false);
                 setIsLoading(false);
             } catch (error) {
@@ -105,8 +121,6 @@ export function Stats() {
 
         loadPokemonData();
     }, [isLoading]);
-
-    console.log(stat);
 
     return (
         <Container type={primaryType}>
@@ -160,9 +174,24 @@ export function Stats() {
                                 ))
                             }
 
+                            <PokedexTitle type={primaryType}>Type Defenses</PokedexTitle>
+                            <Description>The effectiveness of each type on {pokemon.name}.</Description>
 
+                            <Effectiveness>
+                                {
+                                    TypesArray.map(type => {
 
+                                        const damages = setDamages(halfDamage, pokemon, type);
 
+                                        return (
+                                            <Effective key={type.id}>
+                                                <Type type={type.name} />
+                                                <EffectiveNumber>{damages}</EffectiveNumber>
+                                            </Effective>
+                                        )
+                                    })
+                                }
+                            </Effectiveness>
                         </PokedexData>
                     </>
                 }
