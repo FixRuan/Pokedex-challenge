@@ -111,7 +111,7 @@ export const Specs = styled.View`
 `;
 
 export const SpecType = styled.View`
-    width: 80px;
+    width: 150px;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;

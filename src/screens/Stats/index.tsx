@@ -42,15 +42,27 @@ import { FilterApiIdByType } from '../../utils/filterTypeStats';
 import { PokemonDataProps } from '../Home';
 import { StatsBar } from '../../components/StatsBar';
 
+interface StatsProps {
+    base_stat: number;
+    effort: number;
+    stat: {
+        name: string;
+        url: string;
+    };
+}
+
 export function Stats() {
     const theme = useTheme();
     const navigation = useNavigation<any>();
 
     const [pokemonStats, setPokemonStats] = useState<any>();
     const [isLoading, setIsLoading] = useState(true);
+    const [stat, setStat] = useState<StatsProps[]>([]);
+    const [statLoading, setStatLoading] = useState(true);
 
     const route: any = useRoute();
     const pokemon = route.params.pokemon;
+
     const primaryType = pokemon.types[0];
 
     function handleGoBack() {
@@ -65,7 +77,26 @@ export function Stats() {
         async function loadPokemonData() {
             try {
                 const id = FilterApiIdByType(pokemon.types[0]);
+                const PokemonBaseStats = await api.get(`pokemon/${pokemon.uuid}`);
+                const Stats = PokemonBaseStats.data.stats;
 
+                if (statLoading) {
+                    Stats.map(item => {
+                        const FormattedStat = {
+                            base_stat: item.base_stat,
+                            effort: item.effort,
+                            stat: {
+                                name: item.stat.name,
+                                url: item.stat.url,
+                            }
+                        }
+                        setStat(stat => [...stat, FormattedStat]);
+                    });
+                }
+
+
+
+                setStatLoading(false);
                 setIsLoading(false);
             } catch (error) {
                 console.log(error);
@@ -74,6 +105,8 @@ export function Stats() {
 
         loadPokemonData();
     }, [isLoading]);
+
+    console.log(stat);
 
     return (
         <Container type={primaryType}>
@@ -116,89 +149,18 @@ export function Stats() {
                         <PokedexData>
                             <PokedexTitle type={primaryType}>Base Stats</PokedexTitle>
 
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>HP</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
+                            {
+                                stat.map(item => (
+                                    <Specs key={item.stat.name}>
+                                        <SpecType>
+                                            <SpecTitle>{item.stat.name}</SpecTitle>
+                                            <StatsNumber>{item.base_stat}</StatsNumber>
+                                        </SpecType>
+                                    </Specs>
+                                ))
+                            }
 
-                                <StatsBar />
 
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Attack</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Defense</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Sp. Atk</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Sp. Def</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Speed</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
-
-                            <Specs>
-                                <SpecType>
-                                    <SpecTitle>Total</SpecTitle>
-                                    <StatsNumber>50</StatsNumber>
-                                </SpecType>
-
-                                <StatsBar />
-
-                                <StatsMin>100</StatsMin>
-                                <StatsMax>200</StatsMax>
-                            </Specs>
 
 
                         </PokedexData>
