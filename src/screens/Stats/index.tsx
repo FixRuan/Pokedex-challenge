@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+
 import { ActivityIndicator, StatusBar, TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
@@ -7,7 +9,6 @@ import pokeball from '../../assets/all/Pokeball.png';
 
 import { Type } from '../../components/Type';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { api } from '../../services/api';
 import { FilterApiIdByType } from '../../utils/filterTypeStats';
 
 import { TypesArray } from '../../utils/fiterIcon';
@@ -53,12 +54,12 @@ export function Stats() {
     const navigation = useNavigation<any>();
 
     const [isLoading, setIsLoading] = useState(true);
+    const [statLoading, setStatLoading] = useState(true);
     const [stat, setStat] = useState<StatsProps[]>([]);
     const [halfDamage, setHalfDamage] = useState<string[]>([]);
-    const [statLoading, setStatLoading] = useState(true);
 
     const route: any = useRoute();
-    const pokemon = route.params.pokemonStats;
+    const pokemon = route.params.pokemon;
 
     const primaryType = pokemon.types[0];
 
@@ -68,6 +69,10 @@ export function Stats() {
 
     function OpenAbout() {
         navigation.navigate('Pokemon', { pokemon });
+    }
+
+    function handleEvolution() {
+        navigation.navigate('Evolution', { pokemon });
     }
 
     useEffect(() => {
@@ -110,7 +115,7 @@ export function Stats() {
         }
 
         loadPokemonData();
-    }, [isLoading]);
+    }, []);
 
     return (
         <Container type={primaryType}>
@@ -140,7 +145,7 @@ export function Stats() {
                     </Item>
 
                     <Item>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handleEvolution}>
                             <ItemText>Evolution</ItemText>
                         </TouchableOpacity>
                     </Item>

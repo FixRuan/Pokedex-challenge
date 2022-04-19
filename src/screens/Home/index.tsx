@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+
 import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator, StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
@@ -8,7 +10,6 @@ import Filter2 from '../../assets/all/filter2.svg';
 import Filter3 from '../../assets/all/filter3.svg';
 import { Card } from '../../components/Card';
 import { InputFilter } from '../../components/InputFilter';
-import { api } from '../../services/api';
 import { handlePokemonIndex } from '../../utils/pokemonIndex';
 
 import {
@@ -19,7 +20,6 @@ import {
     SubTitle,
     Title,
     ContentScroll,
-    ContentLoad,
 } from './styles';
 
 export interface PokemonDataProps {

@@ -111,12 +111,7 @@ export const Content = styled.ScrollView`
     padding-top: 25px;
 `;
 
-export const Description = styled.Text`
-    color: ${({ theme }) => theme.colors.gray};
-    font-size: ${RFValue(15)}px;
-    margin-top: 20px;
-    text-align: justify;
-`;
+
 
 export const PokedexData = styled.View``;
 
@@ -153,29 +148,4 @@ export const WeaknessesWrapper = styled.View`
     flex-direction: row;
     align-items: center;
     margin-left: 20px;
-`;
-
-export const Gender = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-left: 30px;
-`;
-
-interface GenderProps {
-    gender: 'male' | 'female';
-}
-
-export const GenderIcon = styled(Ionicons) <GenderProps>`
-    font-size: 14px;
-    margin-right: 3px;
-    ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
-    `}
-`;
-
-export const Percentage = styled.Text<GenderProps>`
-    font-size: ${RFValue(14)}px;
-    ${({ theme, gender }) => css`
-        color: ${gender === 'male' ? theme.colors.type.flying : theme.colors.type.fairy}
-    `}
 `;

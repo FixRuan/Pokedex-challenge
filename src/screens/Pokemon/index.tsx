@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { api } from '../../services/api';
+
 import { ActivityIndicator, StatusBar, TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components/native';
+
+import { Type } from '../../components/Type';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { FilterApiIdByType } from '../../utils/filterTypeStats';
+
+import { PokemonDataProps } from '../Home';
+import { TypeCard } from '../../components/TypeCard';
 
 import shape from '../../assets/all/shape.png';
 import pokeball from '../../assets/all/Pokeball.png';
@@ -18,7 +27,6 @@ import {
     ActiveItemText,
     PokeballImage,
     Content,
-    Description,
     PokedexData,
     PokedexTitle,
     Specs,
@@ -26,22 +34,13 @@ import {
     SpecValue,
     SpecSkills,
     WeaknessesWrapper,
-    Gender,
-    GenderIcon,
-    Percentage,
     PokeInfo,
     PokeInfoImage,
     PokeInfoWrapper,
     Id,
     Types,
 } from './styles';
-import { Type } from '../../components/Type';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { api } from '../../services/api';
-import { FilterApiIdByType } from '../../utils/filterTypeStats';
 
-import { PokemonDataProps } from '../Home';
-import { TypeCard } from '../../components/TypeCard';
 
 interface PokemonSpecs extends PokemonDataProps {
     species: string;
@@ -72,7 +71,11 @@ export function Pokemon() {
     }
 
     function handleStats() {
-        navigation.navigate('Stats', { pokemonStats });
+        navigation.navigate('Stats', { pokemon: pokemonStats });
+    }
+
+    function handleEvolution() {
+        navigation.navigate('Evolution', { pokemon: pokemonStats });
     }
 
     useEffect(() => {
@@ -156,7 +159,7 @@ export function Pokemon() {
                     </Item>
 
                     <Item>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handleEvolution}>
                             <ItemText>Evolution</ItemText>
                         </TouchableOpacity>
                     </Item>
@@ -165,64 +168,64 @@ export function Pokemon() {
             <Content showsVerticalScrollIndicator={false}>
                 {isLoading ? <ActivityIndicator size={'large'} color={theme.colors.type[primaryType]} />
                     :
-                    <>
-                        <PokedexData>
-                            <PokedexTitle type={primaryType}>Pokedex Data</PokedexTitle>
-                            <Specs>
-                                <SpecTitle>Species</SpecTitle>
-                                <SpecValue>{pokemonStats.species}</SpecValue>
-                            </Specs>
 
-                            <Specs>
-                                <SpecTitle>Height</SpecTitle>
-                                <SpecValue>{pokemonStats.height}m</SpecValue>
-                            </Specs>
+                    <PokedexData>
+                        <PokedexTitle type={primaryType}>Pokedex Data</PokedexTitle>
+                        <Specs>
+                            <SpecTitle>Species</SpecTitle>
+                            <SpecValue>{pokemonStats.species}</SpecValue>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Weight</SpecTitle>
-                                <SpecValue>{pokemonStats.weight}</SpecValue>
-                            </Specs>
+                        <Specs>
+                            <SpecTitle>Height</SpecTitle>
+                            <SpecValue>{pokemonStats.height}m</SpecValue>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Abilities</SpecTitle>
-                                <SpecSkills>
-                                    {pokemonStats.abilities.map(ability =>
-                                        <SpecValue key={ability}>{ability}</SpecValue>
-                                    )}
-                                </SpecSkills>
-                            </Specs>
+                        <Specs>
+                            <SpecTitle>Weight</SpecTitle>
+                            <SpecValue>{pokemonStats.weight}</SpecValue>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Weaknesses</SpecTitle>
-                                <WeaknessesWrapper>
-                                    {pokemonStats?.weaknesses?.map(item => (
-                                        <Type key={item} type={item} />
-                                    ))}
-                                </WeaknessesWrapper>
-                            </Specs>
+                        <Specs>
+                            <SpecTitle>Abilities</SpecTitle>
+                            <SpecSkills>
+                                {pokemonStats.abilities.map(ability =>
+                                    <SpecValue key={ability}>{ability}</SpecValue>
+                                )}
+                            </SpecSkills>
+                        </Specs>
 
-                            <PokedexTitle type={primaryType}>Training</PokedexTitle>
-                            <Specs>
-                                <SpecTitle>Catch Rate</SpecTitle>
-                                <SpecValue>{pokemonStats.catchRate}</SpecValue>
-                            </Specs>
+                        <Specs>
+                            <SpecTitle>Weaknesses</SpecTitle>
+                            <WeaknessesWrapper>
+                                {pokemonStats?.weaknesses?.map(item => (
+                                    <Type key={item} type={item} />
+                                ))}
+                            </WeaknessesWrapper>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Base Friendship</SpecTitle>
-                                <SpecValue>{pokemonStats.friendShipRate}</SpecValue>
-                            </Specs>
+                        <PokedexTitle type={primaryType}>Training</PokedexTitle>
+                        <Specs>
+                            <SpecTitle>Catch Rate</SpecTitle>
+                            <SpecValue>{pokemonStats.catchRate}</SpecValue>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Base Exp</SpecTitle>
-                                <SpecValue>{pokemonStats.baseExp}</SpecValue>
-                            </Specs>
+                        <Specs>
+                            <SpecTitle>Base Friendship</SpecTitle>
+                            <SpecValue>{pokemonStats.friendShipRate}</SpecValue>
+                        </Specs>
 
-                            <Specs>
-                                <SpecTitle>Growth Rate</SpecTitle>
-                                <SpecValue>{pokemonStats.growthRate}</SpecValue>
-                            </Specs>
-                        </PokedexData>
-                    </>
+                        <Specs>
+                            <SpecTitle>Base Exp</SpecTitle>
+                            <SpecValue>{pokemonStats.baseExp}</SpecValue>
+                        </Specs>
+
+                        <Specs>
+                            <SpecTitle>Growth Rate</SpecTitle>
+                            <SpecValue>{pokemonStats.growthRate}</SpecValue>
+                        </Specs>
+                    </PokedexData>
+
                 }
 
             </Content>
