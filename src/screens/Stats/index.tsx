@@ -29,6 +29,10 @@ import {
     Gender,
     GenderIcon,
     Percentage,
+    StatsNumber,
+    SpecType,
+    StatsMin,
+    StatsMax,
 } from './styles';
 import { Type } from '../../components/Type';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -36,6 +40,7 @@ import { api } from '../../services/api';
 import { FilterApiIdByType } from '../../utils/filterTypeStats';
 
 import { PokemonDataProps } from '../Home';
+import { StatsBar } from '../../components/StatsBar';
 
 export function Stats() {
     const theme = useTheme();
@@ -112,8 +117,87 @@ export function Stats() {
                             <PokedexTitle type={primaryType}>Base Stats</PokedexTitle>
 
                             <Specs>
-                                <SpecTitle>any</SpecTitle>
-                                <SpecValue>any</SpecValue>
+                                <SpecType>
+                                    <SpecTitle>HP</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Attack</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Defense</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Sp. Atk</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Sp. Def</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Speed</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
+                            </Specs>
+
+                            <Specs>
+                                <SpecType>
+                                    <SpecTitle>Total</SpecTitle>
+                                    <StatsNumber>50</StatsNumber>
+                                </SpecType>
+
+                                <StatsBar />
+
+                                <StatsMin>100</StatsMin>
+                                <StatsMax>200</StatsMax>
                             </Specs>
 
 

@@ -71,7 +71,7 @@ export const NavBar = styled.View`
     flex-direction: row;
     align-items: center;
     padding: 0px 30px;
-    margin-top: 40px;
+    margin-top: 10px;
     justify-content: space-between;
 `;
 
@@ -107,7 +107,7 @@ export const Content = styled.ScrollView`
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     padding: 0px 30px;
-    margin-top: -10px;
+    margin-top: 18px;
     padding-top: 25px;
 `;
 

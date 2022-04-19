@@ -110,6 +110,13 @@ export const Specs = styled.View`
     margin-bottom: 16px;
 `;
 
+export const SpecType = styled.View`
+    width: 80px;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+`;
+
 export const SpecTitle = styled.Text`
     font-size: ${RFValue(12)}px;
     color: ${({ theme }) => theme.colors.black};
@@ -121,6 +128,25 @@ export const SpecValue = styled.Text`
     color: ${({ theme }) => theme.colors.gray};
     font-family: ${({ theme }) => theme.fonts.regular};
     margin-left: 20px;
+`;
+
+export const StatsNumber = styled.Text`
+    font-size: ${RFValue(15)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const StatsMin = styled.Text`
+    font-size: ${RFValue(15)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const StatsMax = styled.Text`
+    font-size: ${RFValue(15)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
+    margin-left: 10px;
 `;
 
 export const SpecSkills = styled.View``
