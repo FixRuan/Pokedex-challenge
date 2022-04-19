@@ -37,23 +37,33 @@ import {
     Effectiveness,
     Effective,
     EffectiveNumber,
+    EvolutionContainer,
+    EvolutionContainerWrapper,
+    EvolutionImage,
+    EvolutionId,
+    EvolutionName,
+    EvolutionLevel,
 } from './styles';
+import { handlePokemonIndex } from '../../utils/pokemonIndex';
 
-
-interface StatsProps {
-    base_stat: number;
-    effort: number;
-    stat: {
-        name: string;
-        url: string;
-    };
+interface EvolutionProps {
+    specie: string;
+    name: string;
+    minLevel: number;
+    image: string;
+    pokemonIndex: string;
+    specieImage: string;
+    specieIndex: string;
 }
+
 
 export function Evolution() {
     const theme = useTheme();
     const navigation = useNavigation<any>();
 
     const [isLoading, setIsLoading] = useState(true);
+    const [evolutionFirstChain, setEvolutionFirstChain] = useState<EvolutionProps>();
+    const [evolutionSecondChain, setEvolutionSecondChain] = useState<EvolutionProps>();
 
     const route: any = useRoute();
     const pokemon = route.params.pokemon;
@@ -76,7 +86,59 @@ export function Evolution() {
         async function loadPokemonData() {
             try {
                 const id = FilterApiIdByType(pokemon.types[0]);
+                const evolutionResponse = await api.get(pokemon.evolutionUrl);
+                const evolution = evolutionResponse.data.chain.evolves_to;
 
+                const FirstChainEvolution = {
+                    name: evolution[0].species.name,
+                    minLevel: evolution[0].evolution_details[0].min_level,
+                    specie: evolutionResponse.data.chain.species.name,
+                }
+
+                const specieEvolutionResponse = await api.get(`/pokemon/${FirstChainEvolution.specie}`);
+                const specieImage = specieEvolutionResponse.data.sprites.other['official-artwork'].front_default;
+                const specieIndex = handlePokemonIndex(specieEvolutionResponse.data.id);
+
+                if (evolution[0].evolves_to.length > 0) {
+                    const SecondChainEvolution = {
+                        name: evolution[0].evolves_to[0].species.name,
+                        minLevel: evolution[0].evolves_to[0].evolution_details[0].min_level,
+                        specie: evolutionResponse.data.chain.species.name,
+                    }
+
+                    const SecondEvolutionResponse = await api.get(`/pokemon/${SecondChainEvolution.name}`);
+                    const SecondpokemonIndex = handlePokemonIndex(SecondEvolutionResponse.data.id);
+                    const Secondimage = SecondEvolutionResponse.data.sprites.other['official-artwork'].front_default;
+
+                    setEvolutionSecondChain(
+                        {
+                            pokemonIndex: SecondpokemonIndex,
+                            image: Secondimage,
+                            specieImage,
+                            specieIndex,
+                            ...SecondChainEvolution
+                        }
+                    );
+                }
+
+                const FirstEvolutionResponse = await api.get(`/pokemon/${FirstChainEvolution.name}`);
+                const FirstpokemonIndex = handlePokemonIndex(FirstEvolutionResponse.data.id);
+                const Firstimage = FirstEvolutionResponse.data.sprites.other['official-artwork'].front_default;
+
+
+
+
+
+
+                setEvolutionFirstChain(
+                    {
+                        pokemonIndex: FirstpokemonIndex,
+                        image: Firstimage,
+                        specieImage,
+                        specieIndex,
+                        ...FirstChainEvolution
+                    }
+                );
 
 
                 setIsLoading(false);
@@ -86,7 +148,10 @@ export function Evolution() {
         }
 
         loadPokemonData();
-    }, [isLoading]);
+    }, []);
+
+    // console.log(evolutionFirstChain);
+    // console.log(evolutionSecondChain);
 
     return (
         <Container type={primaryType}>
@@ -128,6 +193,40 @@ export function Evolution() {
                     <>
                         <PokedexData>
                             <PokedexTitle type={primaryType}>Evolution Chart</PokedexTitle>
+
+                            <EvolutionContainer>
+                                <EvolutionContainerWrapper>
+                                    <EvolutionImage source={{ uri: evolutionFirstChain.specieImage }} />
+                                    <EvolutionId>{evolutionFirstChain.specieIndex}</EvolutionId>
+                                    <EvolutionName>{evolutionFirstChain.specie}</EvolutionName>
+                                </EvolutionContainerWrapper>
+
+                                <EvolutionLevel>{`(Level ${evolutionFirstChain.minLevel})`}</EvolutionLevel>
+
+                                <EvolutionContainerWrapper>
+                                    <EvolutionImage source={{ uri: evolutionFirstChain.image }} />
+                                    <EvolutionId>{evolutionFirstChain.pokemonIndex}</EvolutionId>
+                                    <EvolutionName>{evolutionFirstChain.name}</EvolutionName>
+                                </EvolutionContainerWrapper>
+                            </EvolutionContainer>
+                            {evolutionSecondChain &&
+                                <EvolutionContainer>
+                                    <EvolutionContainerWrapper>
+                                        <EvolutionImage source={{ uri: evolutionFirstChain.image }} />
+                                        <EvolutionId>{evolutionFirstChain.pokemonIndex}</EvolutionId>
+                                        <EvolutionName>{evolutionFirstChain.name}</EvolutionName>
+                                    </EvolutionContainerWrapper>
+
+                                    <EvolutionLevel>{`(Level ${evolutionSecondChain.minLevel})`}</EvolutionLevel>
+
+                                    <EvolutionContainerWrapper>
+                                        <EvolutionImage source={{ uri: evolutionSecondChain.image }} />
+                                        <EvolutionId>{evolutionSecondChain.pokemonIndex}</EvolutionId>
+                                        <EvolutionName>{evolutionSecondChain.name}</EvolutionName>
+                                    </EvolutionContainerWrapper>
+                                </EvolutionContainer>
+                            }
+
                         </PokedexData>
                     </>
                 }

@@ -52,6 +52,7 @@ interface PokemonSpecs extends PokemonDataProps {
     catchRate: string;
     friendShipRate: string;
     growthRate: string;
+    evolutionUrl?: string;
 }
 
 export function Pokemon() {
@@ -96,6 +97,7 @@ export function Pokemon() {
                 const catchRate = specRates.data.capture_rate;
                 const friendShipRate = specRates.data.base_happiness;
                 const growthRate = specRates.data.growth_rate.name;
+                const evolutionUrl = specRates.data.evolution_chain.url;
 
 
                 const data = {
@@ -108,6 +110,7 @@ export function Pokemon() {
                     catchRate,
                     friendShipRate,
                     growthRate,
+                    evolutionUrl,
                     ...pokemon,
                 }
 

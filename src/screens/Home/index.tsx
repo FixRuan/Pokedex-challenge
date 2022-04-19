@@ -46,7 +46,7 @@ export function Home() {
 
     async function getPokemons() {
         setLoading(true);
-        const response = await api.get(`pokemon?limit=20&offset=${0}`);
+        const response = await api.get(`pokemon?limit=20&offset=${30}`);
         const pokemonArray = response.data.results;
 
         pokemonArray.map(async pokemon => {

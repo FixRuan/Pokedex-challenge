@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 interface Props {
-   type: string;
+    type: string;
 }
 
 export const Container = styled.View<Props>`
@@ -147,4 +147,39 @@ export const EffectiveNumber = styled.Text`
     font-size: ${RFValue(15)}px;
     color: ${({ theme }) => theme.colors.gray};
     font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const EvolutionContainer = styled.View`
+    flex-direction: row;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+`;
+
+export const EvolutionContainerWrapper = styled.View`
+    align-items: center;
+`;
+
+export const EvolutionImage = styled.Image`
+    width: 100px;
+    height: 100px;
+`;
+
+export const EvolutionId = styled.Text`
+    font-size: ${RFValue(12)}px;
+    color: ${({ theme }) => theme.colors.gray};
+    font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const EvolutionName = styled.Text`
+    font-size: ${RFValue(16)}px;
+    color: ${({ theme }) => theme.colors.black};
+    font-family: ${({ theme }) => theme.fonts.bold};
+`;
+
+export const EvolutionLevel = styled.Text`
+    font-size: ${RFValue(16)}px;
+    color: ${({ theme }) => theme.colors.black};
+    font-family: ${({ theme }) => theme.fonts.bold};
 `;
