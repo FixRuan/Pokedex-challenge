@@ -37,8 +37,13 @@ export function Home() {
     const navigation = useNavigation<any>();
 
     const [pokemonData, setPokemonData] = useState<PokemonDataProps[]>([]);
+    const [initialPokemonData, setInitialPokemonData] = useState<PokemonDataProps[]>([]);
     const [loadPokemons, setLoadPokemons] = useState(true);
     const [loading, setLoading] = useState(false);
+
+    const [filter, setFilter] = useState('');
+    console.log(filter);
+
 
     function handleOpenCard(pokemon: PokemonDataProps) {
         navigation.navigate('Pokemon', { pokemon });
@@ -46,7 +51,7 @@ export function Home() {
 
     async function getPokemons() {
         setLoading(true);
-        const response = await api.get(`pokemon?limit=20&offset=${30}`);
+        const response = await api.get(`pokemon?limit=5&offset=${0}`);
         const pokemonArray = response.data.results;
 
         pokemonArray.map(async pokemon => {
@@ -77,7 +82,8 @@ export function Home() {
         }
 
         setLoadPokemons(false);
-    }, [])
+    }, []);
+
 
 
     return (
@@ -100,23 +106,30 @@ export function Home() {
             <Header>
                 <Title>Pokédex</Title>
                 <SubTitle>Explore the world of Pokemon</SubTitle>
-                <InputFilter />
+                <InputFilter onChangeText={setFilter} />
             </Header>
 
 
             <ContentScroll showsVerticalScrollIndicator={false}>
-                {
-                    !loading ? pokemonData.map(pokemon =>
+                {loading && <ActivityIndicator size='large' color={theme.colors.type.dark} />}
+
+                {(!loading && filter != '') && pokemonData.filter(pokemon =>
+                    pokemon.name.toLowerCase().includes(filter.toLowerCase())).map(pokemon =>
                         <Card
                             key={pokemon.id}
                             onPress={() => handleOpenCard(pokemon)}
                             pokemon={pokemon}
-                        />)
-                        : <ActivityIndicator
-                            size='large'
-                            color={theme.colors.type.dark}
                         />
+                    )
                 }
+
+                {(!loading && filter == '') && pokemonData.map(pokemon =>
+                    <Card
+                        key={pokemon.id}
+                        onPress={() => handleOpenCard(pokemon)}
+                        pokemon={pokemon}
+                    />
+                )}
             </ContentScroll>
         </Container>
     );
